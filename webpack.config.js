@@ -1,6 +1,6 @@
 module.exports = {
 	output: {
-		filename: 'micufy.js'
+		filename: 'mucify.js'
 	},
 	module: {
 		loaders: [
