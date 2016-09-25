@@ -28,24 +28,24 @@ var config = {
 	}
 };
 
-gulp.task('views:clean', function (next) {
-	del(config.paths.build.views + '/**', next);
+gulp.task('views:clean', function () {
+	return del([config.paths.build.views + '/**']);
 });
 gulp.task('views', function () {
 	return gulp.src(config.paths.src.views + '/**')
 		.pipe(gulp.dest(config.paths.build.views));
 });
 
-gulp.task('styles:clean', function (next) {
-	del(config.paths.build.styles + '/**', next);
+gulp.task('styles:clean', function () {
+	return del([config.paths.build.styles + '/**']);
 });
 gulp.task('styles', function () {
 	return gulp.src(config.paths.src.styles + '/**')
 		.pipe(gulp.dest(config.paths.build.css));
 });
 
-gulp.task('scripts:clean', function (next) {
-	del(config.paths.build.scripts + '/**', next);
+gulp.task('scripts:clean', function () {
+	return del([config.paths.build.scripts + '/**']);
 });
 gulp.task('scripts:vendor', function () {
 	return gulp.src(config.paths.src.scripts + '/vendor/**')
@@ -62,7 +62,7 @@ gulp.task('clean', ['views:clean', 'styles:clean', 'scripts:clean']);
 
 gulp.task('build', function (next) {
 	runSequence(
-		//'clean',
+		'clean',
 		['views', 'styles', 'scripts'],
 		next
 	);
