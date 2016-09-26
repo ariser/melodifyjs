@@ -1,7 +1,7 @@
 import Q from "q";
 import Player from "./app/player";
 import * as Scales from "./app/scale";
-import {VALUES, VALUES_FLUID, VALUES_SLOW} from "./app/const/notes";
+import {VALUES, VALUES_FLUID, VALUES_SLOW, VALUES_MEDIUM} from "./app/const/notes";
 import {DEGREE, DEGREES_LIST_FOR_RANDOM} from "./app/const/scales";
 import {Note, Pause} from "./app/items";
 
@@ -13,10 +13,7 @@ MIDI.loadPlugin({
 		progressbar.value = progress;
 		console.log(`${state}: ${progress}`);
 	},
-	onsuccess:    () => {
-
-		main();
-	}
+	onsuccess:    main
 });
 
 function main() {

@@ -21,6 +21,12 @@ export const VALUES_SLOW = [
 	1 / 8, 1 / 8
 ];
 
+export const VALUES_MEDIUM = [
+	1 / 4, 1 / 4,
+	1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8,
+	1 / 16, 1 / 16, 1 / 16
+];
+
 export const VALUES_FLUID = [
 	1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8,
 	1 / 16, 1 / 16, 1 / 16, 1 / 16,
