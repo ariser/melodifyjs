@@ -1,31 +1,11 @@
-import Q from "q";
+import {Note, Pause} from './items';
 
 var WHOLE_NOTE_LENGTH = 2; // seconds
 
 class Player {
-	load = null;
 
 	constructor(bpm = 120) {
-		var progressbar = document.querySelector('#progress');
-
-		var defer = Q.defer();
-		this.load = defer.promise;
-
 		WHOLE_NOTE_LENGTH = 60 / (bpm / 4);
-
-		MIDI.loadPlugin({
-			soundfontUrl: '/assets/audio/',
-			instrument:   'acoustic_grand_piano',
-			onprogress:   (state, progress) => {
-				progressbar.value = progress;
-				console.log(`${state}: ${progress}`);
-			},
-			onsuccess:    () => {
-
-				MIDI.setVolume(0, 127);
-				defer.resolve();
-			}
-		});
 	}
 
 	delay = 1;
@@ -39,6 +19,16 @@ class Player {
 
 	pause(value) {
 		this.delay += WHOLE_NOTE_LENGTH * value;
+	}
+
+	playBar(bar) {
+		bar.items.forEach(item => {
+			if (item instanceof Note) {
+				this.playNote(item.tone, item.octave, item.value);
+			} else if (item instanceof Pause) {
+				this.pause(item.value);
+			}
+		});
 	}
 }
 

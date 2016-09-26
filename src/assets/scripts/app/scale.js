@@ -50,8 +50,8 @@ export class Locrian extends Scale {
 	static intervals = Scales.LOCRIAN;
 }
 
-export class Chromatic extends Scale {
-	static intervals = Scales.Chromatic;
+export class Dorian extends Scale {
+	static intervals = Scales.DORIAN;
 }
 
 export class AllNotes extends Scale {

@@ -1,4 +1,4 @@
-export const NOTES = ['Cb', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+export const NOTES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
 export function getNoteInInterval(startNote, interval) {
 	var startNoteIndex = NOTES.indexOf(startNote);
@@ -6,10 +6,19 @@ export function getNoteInInterval(startNote, interval) {
 }
 
 export const VALUES = [
-//	1,
+	//1,
 	1 / 2,
 	1 / 4,
 	1 / 8,
 	1 / 16,
 	1 / 32
+];
+
+export const VALUES_FOR_RANDOM = [
+	1,
+	1 / 2, 1 / 2,
+	1 / 4, 1 / 4, 1 / 4, 1 / 4,
+	1 / 8, 1 / 8, 1 / 8,
+	1 / 16
+//	1 / 32
 ];
