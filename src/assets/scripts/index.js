@@ -1,7 +1,7 @@
 import Q from "q";
 import Player from "./app/player";
 import * as Scales from "./app/scale";
-import {VALUES, VALUES_FLUID, VALUES_SLOW, VALUES_MEDIUM} from "./app/const/notes";
+import {VALUES, VALUES_FLUID, VALUES_SLOW, VALUES_MEDIUM, VALUES_VERY_SLOW} from "./app/const/notes";
 import {DEGREE, DEGREES_LIST_FOR_RANDOM} from "./app/const/scales";
 import {Note, Pause} from "./app/items";
 
@@ -27,8 +27,8 @@ function main() {
 
 	var bpm = 120;
 	var bassPlayer = new Player(bpm);
-	var backPlayer = new Player(bpm);
-	var melodyPlayer = new Player(bpm);
+	var backPlayer = new Player(bpm, 3);
+	var melodyPlayer = new Player(bpm, 2);
 
 	// player.playNote('E', 2, 1 / 4);
 	// player.playNote('C', 2, 1 / 4);
@@ -156,8 +156,8 @@ function main() {
 	}
 
 	Q.all([backPlayer, bassPlayer, melodyPlayer]).then(() => {
-		var scale = new Scales.BluesScale('E');
-		var secondScale = new Scales.Lydian('G');
+		var scale = new Scales.Phrygian('E');
+		var secondScale = new Scales.Lydian('F');
 
 		var bluesKeysSeq = [
 			scale.getNoteByDegree(DEGREE.TONIC),
@@ -192,9 +192,9 @@ function main() {
 
 		keysSeq = keysSeq.map(degree => Array.isArray(degree) ? [scale.getNoteByDegree(degree[0]), scale.getNoteByDegree(degree[1])] : scale.getNoteByDegree(degree));
 
-		var bassline = new BassLine(scale, bluesKeysSeq);
-		var backline = new RandomMelodyLine(scale, 3, VALUES_SLOW, bluesKeysSeq);
-		var melodyline = new RandomMelodyLine(scale, 5, VALUES_SLOW, bluesKeysSeq);
+		var bassline = new BassLine(scale, keysSeq);
+		var backline = new RandomMelodyLine(scale, 3, VALUES_SLOW, keysSeq);
+		var melodyline = new RandomMelodyLine(secondScale, 4, VALUES_VERY_SLOW, keysSeq);
 
 		bassline.play(bassPlayer);
 		backline.play(backPlayer);

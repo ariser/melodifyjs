@@ -14,6 +14,12 @@ export const VALUES = [
 	1 / 32
 ];
 
+export const VALUES_VERY_SLOW = [
+	1,
+	1 / 2, 1 / 2,
+	1 / 4, 1 / 4, 1 / 4
+];
+
 export const VALUES_SLOW = [
 	1,
 	1 / 2, 1 / 2,
