@@ -21,7 +21,7 @@ MIDI.loadPlugin({
 });
 
 function main() {
-	var bpm = 90;
+	var bpm = 120;
 	var player = new Player(bpm);
 	var bassPlayer = new Player(bpm);
 	var stuffPlayer = new Player(bpm);
@@ -151,9 +151,17 @@ function main() {
 	}
 
 	Q.all([player, bassPlayer]).then(() => {
-		var scale = new Scales.Dorian('D');
+		var scale = new Scales.Aeolian('E');
 
 		var bluesKeysSeq = [
+			scale.getNoteByDegree(DEGREE.TONIC),
+			scale.getNoteByDegree(DEGREE.TONIC),
+			scale.getNoteByDegree(DEGREE.SUBDOMINANT),
+			scale.getNoteByDegree(DEGREE.TONIC),
+			scale.getNoteByDegree(DEGREE.DOMINANT),
+			scale.getNoteByDegree(DEGREE.SUBDOMINANT),
+			scale.getNoteByDegree(DEGREE.TONIC),
+			scale.getNoteByDegree(DEGREE.DOMINANT),
 			scale.getNoteByDegree(DEGREE.TONIC),
 			scale.getNoteByDegree(DEGREE.TONIC),
 			scale.getNoteByDegree(DEGREE.SUBDOMINANT),
@@ -178,9 +186,9 @@ function main() {
 
 		keysSeq = keysSeq.map(degree => Array.isArray(degree) ? [scale.getNoteByDegree(degree[0]), scale.getNoteByDegree(degree[1])] : scale.getNoteByDegree(degree));
 
-		var bassline = new BassLine(scale, keysSeq);
-		var melodyline = new RandomMelodyLine(scale, 5, keysSeq);
-		var stuffline = new RandomMelodyLine(scale, 3, keysSeq);
+		var bassline = new BassLine(scale, bluesKeysSeq);
+		var melodyline = new RandomMelodyLine(scale, 5, bluesKeysSeq);
+		var stuffline = new RandomMelodyLine(scale, 3, bluesKeysSeq);
 
 		bassline.play(bassPlayer);
 		melodyline.play(player);
