@@ -44,3 +44,5 @@ export const AEOLIAN = [0, 1, 1.5, 2.5, 3.5, 4, 5];
 export const LOCRIAN = [0, 0.5, 1.5, 2.5, 3, 3.5, 4.5];
 
 export const ALTERED = [0, 0.5, 1.5, 2, 3, 4, 5];
+
+export const AEOLIAN_PENTATONIC = [0, 0, 1.5, 2.5, 3.5, 3.5, 5];

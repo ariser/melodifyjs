@@ -26,9 +26,9 @@ function main() {
 	MIDI.programChange(3, 24); // acoustic_guitar_nylon
 
 	var bpm = 120;
-	var bassPlayer = new Player(bpm, 3);
-	var backPlayer = new Player(bpm, 3);
-	var melodyPlayer = new Player(bpm, 2);
+	var bassPlayer = new Player(bpm);
+	var backPlayer = new Player(bpm);
+	var melodyPlayer = new Player(bpm);
 
 	// player.playNote('E', 2, 1 / 4);
 	// player.playNote('C', 2, 1 / 4);
@@ -156,7 +156,7 @@ function main() {
 	}
 
 	Q.all([backPlayer, bassPlayer, melodyPlayer]).then(() => {
-		var scale = new Scales.Dorian('E');
+		var scale = new Scales.BluesScale('E');
 		var secondScale = new Scales.Lydian('G');
 
 		var bluesKeysSeq = [
@@ -192,9 +192,9 @@ function main() {
 
 		keysSeq = keysSeq.map(degree => Array.isArray(degree) ? [scale.getNoteByDegree(degree[0]), scale.getNoteByDegree(degree[1])] : scale.getNoteByDegree(degree));
 
-		var bassline = new BassLine(scale, keysSeq);
-		var backline = new RandomMelodyLine(scale, 3, VALUES_SLOW, keysSeq);
-		var melodyline = new RandomMelodyLine(secondScale, 5, VALUES_SLOW, keysSeq);
+		var bassline = new BassLine(scale, bluesKeysSeq);
+		var backline = new RandomMelodyLine(scale, 3, VALUES_SLOW, bluesKeysSeq);
+		var melodyline = new RandomMelodyLine(scale, 5, VALUES_SLOW, bluesKeysSeq);
 
 		bassline.play(bassPlayer);
 		backline.play(backPlayer);
