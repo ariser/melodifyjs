@@ -4,16 +4,17 @@ var WHOLE_NOTE_LENGTH = 2; // seconds
 
 class Player {
 
-	constructor(bpm = 120) {
+	constructor(bpm = 120, channel = 0) {
 		WHOLE_NOTE_LENGTH = 60 / (bpm / 4);
+		this.channel = channel;
 	}
 
 	delay = 1;
 
 	playNote(note, octave, value) {
 		var midiNote = MIDI.keyToNote[note + octave];
-		MIDI.noteOn(0, midiNote, 127, this.delay);
-		MIDI.noteOff(0, midiNote, this.delay + WHOLE_NOTE_LENGTH * value);
+		MIDI.noteOn(this.channel, midiNote, 127, this.delay);
+		MIDI.noteOff(this.channel, midiNote, this.delay + WHOLE_NOTE_LENGTH * value);
 		this.delay += WHOLE_NOTE_LENGTH * value;
 	}
 

@@ -1,30 +1,37 @@
 import Q from "q";
 import Player from "./app/player";
 import * as Scales from "./app/scale";
-import {VALUES_FOR_RANDOM} from "./app/const/notes";
+import {VALUES, VALUES_FLUID, VALUES_SLOW} from "./app/const/notes";
 import {DEGREE, DEGREES_LIST_FOR_RANDOM} from "./app/const/scales";
 import {Note, Pause} from "./app/items";
 
 var progressbar = document.querySelector('#progress');
 MIDI.loadPlugin({
 	soundfontUrl: '/assets/audio/',
-	instrument:   'acoustic_grand_piano',
+	instrument:   ['acoustic_grand_piano', 'acoustic_guitar_steel', 'flute', 'acoustic_guitar_nylon'],
 	onprogress:   (state, progress) => {
 		progressbar.value = progress;
 		console.log(`${state}: ${progress}`);
 	},
 	onsuccess:    () => {
 
-		MIDI.setVolume(0, 127);
 		main();
 	}
 });
 
 function main() {
+	MIDI.setVolume(0, 127);
+	MIDI.setVolume(1, 127);
+	MIDI.setVolume(2, 60);
+	MIDI.setVolume(3, 127);
+	MIDI.programChange(1, 25); // acoustic_guitar_steel
+	MIDI.programChange(2, 73); // flute
+	MIDI.programChange(3, 24); // acoustic_guitar_nylon
+
 	var bpm = 120;
-	var player = new Player(bpm);
-	var bassPlayer = new Player(bpm);
-	var stuffPlayer = new Player(bpm);
+	var bassPlayer = new Player(bpm, 3);
+	var backPlayer = new Player(bpm, 3);
+	var melodyPlayer = new Player(bpm, 2);
 
 	// player.playNote('E', 2, 1 / 4);
 	// player.playNote('C', 2, 1 / 4);
@@ -46,9 +53,10 @@ function main() {
 		items = [];
 		itemsValue = 0;
 
-		constructor(scale, octave, leadTone = null, trailTone = null) {
+		constructor(scale, octave, values = VALUES, leadTone = null, trailTone = null) {
 			this.scale = scale;
 			this.octave = octave;
+			this.values = values;
 			this.leadTone = leadTone;
 			this.trailTone = trailTone;
 		}
@@ -97,7 +105,7 @@ function main() {
 		getValidItemValue() {
 			var value;
 			do {
-				value = VALUES_FOR_RANDOM[Math.floor(Math.random() * VALUES_FOR_RANDOM.length)];
+				value = this.values[Math.floor(Math.random() * this.values.length)];
 			} while (this.itemsValue + value > 1);
 			return value;
 		}
@@ -135,14 +143,14 @@ function main() {
 	}
 
 	class RandomMelodyLine extends BarsLine {
-		constructor(scale, octave, keysSeq = []) {
+		constructor(scale, octave, values, keysSeq = []) {
 			super();
 			keysSeq.forEach(key => {
 				let bar;
 				if (Array.isArray(key)) {
-					bar = new RandomBar(scale, octave, key[0], key[1]);
+					bar = new RandomBar(scale, octave, values, key[0], key[1]);
 				} else {
-					bar = new RandomBar(scale, octave, key);
+					bar = new RandomBar(scale, octave, values, key);
 				}
 				bar.fill();
 				this.bars.push(bar);
@@ -150,8 +158,9 @@ function main() {
 		}
 	}
 
-	Q.all([player, bassPlayer]).then(() => {
-		var scale = new Scales.Aeolian('E');
+	Q.all([backPlayer, bassPlayer, melodyPlayer]).then(() => {
+		var scale = new Scales.Dorian('E');
+		var secondScale = new Scales.Lydian('G');
 
 		var bluesKeysSeq = [
 			scale.getNoteByDegree(DEGREE.TONIC),
@@ -186,12 +195,12 @@ function main() {
 
 		keysSeq = keysSeq.map(degree => Array.isArray(degree) ? [scale.getNoteByDegree(degree[0]), scale.getNoteByDegree(degree[1])] : scale.getNoteByDegree(degree));
 
-		var bassline = new BassLine(scale, bluesKeysSeq);
-		var melodyline = new RandomMelodyLine(scale, 5, bluesKeysSeq);
-		var stuffline = new RandomMelodyLine(scale, 3, bluesKeysSeq);
+		var bassline = new BassLine(scale, keysSeq);
+		var backline = new RandomMelodyLine(scale, 3, VALUES_SLOW, keysSeq);
+		var melodyline = new RandomMelodyLine(secondScale, 5, VALUES_SLOW, keysSeq);
 
 		bassline.play(bassPlayer);
-		melodyline.play(player);
-		stuffline.play(stuffPlayer);
+		backline.play(backPlayer);
+		melodyline.play(melodyPlayer);
 	});
 }
