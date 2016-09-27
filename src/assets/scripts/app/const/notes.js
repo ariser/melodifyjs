@@ -17,7 +17,7 @@ export const VALUES = [
 export const VALUES_VERY_SLOW = [
 	1,
 	1 / 2, 1 / 2,
-	1 / 4, 1 / 4, 1 / 4
+	1 / 4
 ];
 
 export const VALUES_SLOW = [
@@ -34,15 +34,6 @@ export const VALUES_MEDIUM = [
 ];
 
 export const VALUES_FLUID = [
-	1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8,
-	1 / 16, 1 / 16, 1 / 16, 1 / 16,
-	1 / 32
-];
-
-export const VALUES_FOR_RANDOM = [
-//	1,
-//	1 / 2,
-	1 / 4,
 	1 / 8, 1 / 8, 1 / 8, 1 / 8, 1 / 8,
 	1 / 16, 1 / 16, 1 / 16, 1 / 16,
 	1 / 32
